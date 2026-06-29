@@ -4,8 +4,8 @@ services:
     name: triclip-api
     env: node
     # Se eliminó "plan: free" para que use el plan gratuito por defecto
-    buildCommand: chmod +x bin/setup-render.sh && ./bin/setup-render.sh && cd server && pnpm install
-    startCommand: cd server && pnpm start
+    buildCommand: chmod +x bin/setup-render.sh && ./bin/setup-render.sh && cd server && npm install
+    startCommand: cd server && node src/index.js
     envVars:
       - key: PORT
         value: 3001
