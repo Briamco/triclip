@@ -19,7 +19,7 @@ services:
         value: 5 # 5 trims per user per day default quota
 
   # ─── Frontend Static Site ──────────────────────────────────────────
-  - type: static # Cambiado a 'static' para sitios estáticos en Render
+  - type: web # Cambiado a 'static' para sitios estáticos en Render
     name: triclip-client
     env: static
     # Se eliminó "plan: free" ya que los sitios estáticos siempre son gratis
