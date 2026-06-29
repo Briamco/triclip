@@ -24,7 +24,7 @@ services:
     env: static
     plan: free
     buildCommand: cd client && pnpm install && pnpm run build
-    publishPath: client/dist
+    staticPublishPath: client/dist
     envVars:
       - key: VITE_API_URL
         sync: false # Set to your Render backend API URL once deployed (e.g. https://triclip-api.onrender.com)
