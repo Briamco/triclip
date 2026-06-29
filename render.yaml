@@ -3,7 +3,7 @@ services:
   - type: web
     name: triclip-api
     env: node
-    plan: free
+    # Se eliminó "plan: free" para que use el plan gratuito por defecto
     buildCommand: chmod +x bin/setup-render.sh && ./bin/setup-render.sh && cd server && pnpm install
     startCommand: cd server && pnpm start
     envVars:
@@ -12,19 +12,19 @@ services:
       - key: NODE_ENV
         value: production
       - key: CORS_ORIGIN
-        sync: false # Set to your Render client URL once deployed (e.g. https://triclip.onrender.com)
+        sync: false
       - key: MAX_FILE_SIZE_BYTES
         value: 1073741824 # 1 GB default limit
       - key: DAILY_USAGE_LIMIT
         value: 5 # 5 trims per user per day default quota
 
   # ─── Frontend Static Site ──────────────────────────────────────────
-  - type: web
+  - type: static # Cambiado a 'static' para sitios estáticos en Render
     name: triclip-client
     env: static
-    plan: free
+    # Se eliminó "plan: free" ya que los sitios estáticos siempre son gratis
     buildCommand: cd client && pnpm install && pnpm run build
     staticPublishPath: client/dist
     envVars:
       - key: VITE_API_URL
-        sync: false # Set to your Render backend API URL once deployed (e.g. https://triclip-api.onrender.com)
+        sync: false
