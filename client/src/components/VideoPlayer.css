@@ -135,6 +135,18 @@
   width: 100%;
 }
 
+.video-controls-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.video-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* slightly wider gap for right side buttons */
+}
+
 .video-btn {
   background: transparent;
   color: white;

@@ -160,31 +160,38 @@ export default function VideoPlayer({ videoSrc, onTimeUpdate, onLoadedMetadata, 
             />
           </div>
           <div className="video-controls-bar">
-            <button className="video-btn play-btn" onClick={togglePlay}>
-              {isPlaying ? <FiPause /> : <FiPlay />}
-            </button>
-            <div className="video-time">
-              <span>{formatTime(currentTime)}</span>
-              <span className="video-time-separator">/</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-            <div className="video-volume-group">
-              <button className="video-btn" onClick={toggleMute}>
-                {isMuted || volume === 0 ? <FiVolumeX /> : <FiVolume2 />}
+            {/* Left Controls Group */}
+            <div className="video-controls-left">
+              <button className="video-btn play-btn" onClick={togglePlay}>
+                {isPlaying ? <FiPause /> : <FiPlay />}
               </button>
-              <input
-                type="range"
-                className="video-volume-slider"
-                min="0"
-                max="1"
-                step="0.05"
-                value={isMuted ? 0 : volume}
-                onChange={handleVolumeChange}
-              />
+              <div className="video-time">
+                <span>{formatTime(currentTime)}</span>
+                <span className="video-time-separator">/</span>
+                <span>{formatTime(duration)}</span>
+              </div>
             </div>
-            <button className="video-btn" onClick={toggleFullscreen}>
-              {isFullscreen ? <FiMinimize /> : <FiMaximize />}
-            </button>
+
+            {/* Right Controls Group */}
+            <div className="video-controls-right">
+              <div className="video-volume-group">
+                <button className="video-btn" onClick={toggleMute}>
+                  {isMuted || volume === 0 ? <FiVolumeX /> : <FiVolume2 />}
+                </button>
+                <input
+                  type="range"
+                  className="video-volume-slider"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={isMuted ? 0 : volume}
+                  onChange={handleVolumeChange}
+                />
+              </div>
+              <button className="video-btn" onClick={toggleFullscreen}>
+                {isFullscreen ? <FiMinimize /> : <FiMaximize />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
