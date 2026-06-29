@@ -6,7 +6,7 @@ import TrimControls from '../components/TrimControls';
 import TimeControls from '../components/TimeControls';
 import VideoDetailsCard from '../components/VideoDetailsCard';
 import ExportPanel from '../components/ExportPanel';
-import { FiScissors, FiDownload, FiArrowLeft, FiLock } from 'react-icons/fi';
+import { FiArrowLeft } from 'react-icons/fi';
 import './EditorPage.css';
 
 export default function EditorPage() {
@@ -21,7 +21,6 @@ export default function EditorPage() {
     dailyTrims,
     config,
     handleTrimVideo,
-    handleDownload,
     handleTrimChange,
     handleTimeUpdate,
     handleLoadedMetadata,
@@ -106,8 +105,8 @@ export default function EditorPage() {
               />
             </div>
 
-            {/* Render Trim & Export actions */}
-            <div className="sidebar-block">
+            {/* Export Panel (Desktop & Tablet only) */}
+            <div className="sidebar-block desktop-tablet-only-export">
               <ExportPanel
                 videoFilename={video.filename}
                 trimStart={trimRange.start}
@@ -117,7 +116,6 @@ export default function EditorPage() {
                 trimResult={trimResult}
                 lastExportedRange={lastExportedRange}
                 onTrim={handleTrimVideo}
-                onDownload={handleDownload}
                 onReset={() => {
                   resetState();
                   navigate('/');
@@ -132,16 +130,38 @@ export default function EditorPage() {
           </div>
         </div>
 
-        {/* Bottom Panel: Full Width Timeline Track */}
+        {/* Bottom Panel: Full Width Timeline Track & Export */}
         <div className="workspace-lower">
-          <TrimControls
-            duration={video.duration}
-            trimStart={trimRange.start}
-            trimEnd={trimRange.end}
-            currentTime={currentTime}
-            onTrimChange={handleTrimChange}
-            onPreview={handlePreview}
-          />
+          <div className="timeline-workspace-wrapper">
+            <div className="timeline-track-container">
+              <TrimControls
+                duration={video.duration}
+                trimStart={trimRange.start}
+                trimEnd={trimRange.end}
+                currentTime={currentTime}
+                onTrimChange={handleTrimChange}
+                onPreview={handlePreview}
+              />
+            </div>
+            
+            {/* Export Panel (Mobile only) */}
+            <div className="timeline-export-container mobile-only-export">
+              <ExportPanel
+                videoFilename={video.filename}
+                trimStart={trimRange.start}
+                trimEnd={trimRange.end}
+                isTrimming={isTrimming}
+                trimProgress={trimProgress}
+                trimResult={trimResult}
+                lastExportedRange={lastExportedRange}
+                onTrim={handleTrimVideo}
+                onReset={() => {
+                  resetState();
+                  navigate('/');
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -222,7 +222,6 @@
   .video-wrapper {
     aspect-ratio: auto; /* Remove the 16:9 lock on mobile for reels/tiktoks */
     width: 100%;
-    height: 86%;
   }
 
   .video-controls {
