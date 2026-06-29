@@ -30,7 +30,6 @@ export default function EditorPage() {
   } = useVideoTrimmer();
 
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('trim'); // 'trim' or 'export'
   const isLimitReached = dailyTrims >= config.dailyUsageLimit;
 
   // Auto-redirect to home if no video is loaded
@@ -85,18 +84,19 @@ export default function EditorPage() {
       <div className="workspace-container">
         <div className="workspace-upper">
           {/* Left Panel: Video Preview */}
-          
+          <div className="workspace-player-panel">
             <VideoPlayer
               videoSrc={video.src}
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={handleLoadedMetadata}
               trimmedDuration={trimRange.end - trimRange.start}
             />
+          </div>
 
           {/* Right Panel: Side Controls (Time & Export Options) */}
           <div className="workspace-export-panel">
             {/* Selection Time Fields (Inputs & Buttons) */}
-            <div className={`sidebar-block ${activeTab === 'trim' ? 'mobile-active' : 'mobile-hidden'}`}>
+            <div className="sidebar-block">
               <TimeControls
                 duration={video.duration}
                 trimStart={trimRange.start}
@@ -107,7 +107,7 @@ export default function EditorPage() {
             </div>
 
             {/* Render Trim & Export actions */}
-            <div className={`sidebar-block ${activeTab === 'export' ? 'mobile-active' : 'mobile-hidden'}`}>
+            <div className="sidebar-block">
               <ExportPanel
                 videoFilename={video.filename}
                 trimStart={trimRange.start}
@@ -123,22 +123,17 @@ export default function EditorPage() {
                   navigate('/');
                 }}
               />
-              <div className="mobile-actions-nav">
-                <button className="mobile-back-btn" onClick={() => setActiveTab('trim')}>
-                  <FiScissors /> Back to Trimming
-                </button>
-              </div>
             </div>
 
-            {/* Media Details & Hotkeys always visible on desktop, tied to trim tab on mobile */}
-            <div className={`sidebar-block ${activeTab === 'trim' ? 'mobile-active' : 'mobile-hidden'}`}>
+            {/* Media Details & Hotkeys always visible on desktop, hidden on mobile */}
+            <div className="sidebar-block">
               <VideoDetailsCard video={video} />
             </div>
           </div>
         </div>
 
         {/* Bottom Panel: Full Width Timeline Track */}
-        <div className={`workspace-lower ${activeTab === 'trim' ? 'mobile-active' : 'mobile-hidden'}`}>
+        <div className="workspace-lower">
           <TrimControls
             duration={video.duration}
             trimStart={trimRange.start}
@@ -147,11 +142,6 @@ export default function EditorPage() {
             onTrimChange={handleTrimChange}
             onPreview={handlePreview}
           />
-          <div className="mobile-actions-nav">
-            <button className="mobile-next-btn" onClick={() => setActiveTab('export')}>
-              Continue to Export <FiDownload />
-            </button>
-          </div>
         </div>
       </div>
     </div>

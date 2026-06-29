@@ -437,15 +437,12 @@
     padding: 12px;
   }
 
-  /* Handle Tab Toggling on Mobile for blocks and player */
-  .workspace-player-panel.mobile-hidden,
-  .workspace-lower.mobile-hidden,
-  .sidebar-block.mobile-hidden,
+  /* Hide Details card container on mobile devices */
   .workspace-export-panel > .sidebar-block:nth-child(3) {
-    display: none !important; /* Hide Details card container on mobile */
+    display: none !important;
   }
 
-  .workspace-player-panel.mobile-active {
+  .workspace-player-panel {
     display: flex !important;
     flex-direction: column;
     width: 100%;
@@ -453,8 +450,8 @@
     flex: none; /* Do not stretch the player card vertical space */
   }
 
-  .workspace-lower.mobile-active,
-  .sidebar-block.mobile-active {
+  .workspace-lower,
+  .sidebar-block {
     display: flex !important;
     flex-direction: column;
     width: 100%;
