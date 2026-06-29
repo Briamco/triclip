@@ -19,14 +19,4 @@ else
   echo "✨ FFmpeg and FFprobe already present."
 fi
 
-# Download yt-dlp if not already present
-if [ ! -f "yt-dlp" ]; then
-  echo "📥 Downloading yt-dlp..."
-  wget -q https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
-  chmod +x yt-dlp
-  echo "✅ yt-dlp downloaded and marked executable."
-else
-  echo "✨ yt-dlp already present."
-fi
-
 echo "🚀 Setup completed successfully."

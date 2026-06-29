@@ -13,6 +13,10 @@ services:
         value: production
       - key: CORS_ORIGIN
         sync: false # Set to your Render client URL once deployed (e.g. https://triclip.onrender.com)
+      - key: MAX_FILE_SIZE_BYTES
+        value: 1073741824 # 1 GB default limit
+      - key: DAILY_USAGE_LIMIT
+        value: 5 # 5 trims per user per day default quota
 
   # ─── Frontend Static Site ──────────────────────────────────────────
   - type: web
