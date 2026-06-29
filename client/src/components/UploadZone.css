@@ -1,0 +1,338 @@
+.upload-zone {
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+
+.upload-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+
+.upload-tab {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.upload-tab:hover {
+  color: var(--text-primary);
+}
+
+.upload-tab.active {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.dropzone {
+  position: relative;
+  border: 2px dashed var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 48px 24px;
+  text-align: center;
+  transition: all var(--transition-base);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.dropzone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, transparent, rgba(233, 69, 96, 0.02), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.dropzone:hover {
+  border-color: var(--border-accent);
+}
+
+.dropzone:hover::before {
+  opacity: 1;
+}
+
+.dropzone.drag-over {
+  border-color: var(--accent-primary);
+  background: rgba(233, 69, 96, 0.04);
+  transform: scale(1.01);
+  animation: borderPulse 1.5s ease infinite;
+}
+
+@keyframes borderPulse {
+  0%, 100% { border-color: var(--accent-primary); }
+  50% { border-color: var(--border-accent); }
+}
+
+.dropzone-icon {
+  font-size: 2.5rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  transition: color var(--transition-base), transform var(--transition-base);
+}
+
+.dropzone:hover .dropzone-icon {
+  color: var(--accent-primary);
+  transform: translateY(-4px);
+}
+
+.dropzone-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.dropzone-text strong {
+  color: var(--accent-primary);
+}
+
+.dropzone-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.dropzone-input {
+  display: none;
+}
+
+.youtube-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.youtube-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.youtube-input {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast);
+}
+
+.youtube-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.youtube-input::placeholder {
+  color: var(--text-muted);
+}
+
+.youtube-submit {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--accent-primary), #ff6b81);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  white-space: nowrap;
+}
+
+.youtube-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.youtube-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.youtube-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.upload-progress {
+  margin-top: 20px;
+}
+
+.upload-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.upload-progress-bar-track {
+  height: 4px;
+  background: var(--bg-primary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.upload-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-primary), #ff6b81);
+  border-radius: 2px;
+  transition: width var(--transition-base);
+  position: relative;
+}
+
+.upload-progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 1.5s ease infinite;
+  background-size: 200% 100%;
+}
+
+.upload-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+}
+
+.upload-loading-spinner {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+.upload-loading-spinner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.upload-loading-spinner::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 3px solid transparent;
+  border-bottom-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1.2s linear reverse infinite;
+  opacity: 0.5;
+}
+
+.upload-loading-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.file-info-icon {
+  color: var(--accent-primary);
+  font-size: 1.2rem;
+}
+
+.file-info-name {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-info-size {
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+}
+
+/* ─── MOBILE STYLING FOR UPLOAD ZONE ────────────────────────────── */
+@media (max-width: 768px) {
+  .dropzone {
+    padding: 32px 16px;
+  }
+
+  .dropzone-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .dropzone-text {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+
+  .dropzone-hint {
+    font-size: 0.75rem;
+  }
+
+  .upload-tab {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    gap: 6px;
+  }
+
+  .youtube-input-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .youtube-input {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .youtube-submit {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.85rem;
+    justify-content: center;
+  }
+
+  .youtube-hint {
+    font-size: 0.75rem;
+  }
+
+  .upload-loading {
+    padding: 24px 16px;
+  }
+
+  .upload-loading-spinner {
+    width: 36px;
+    height: 36px;
+  }
+}

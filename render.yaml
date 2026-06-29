@@ -1,0 +1,26 @@
+services:
+  # ─── Backend Service ────────────────────────────────────────────────
+  - type: web
+    name: triclip-api
+    env: node
+    plan: free
+    buildCommand: chmod +x bin/setup-render.sh && ./bin/setup-render.sh && cd server && pnpm install
+    startCommand: cd server && pnpm start
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        sync: false # Set to your Render client URL once deployed (e.g. https://triclip.onrender.com)
+
+  # ─── Frontend Static Site ──────────────────────────────────────────
+  - type: web
+    name: triclip-client
+    env: static
+    plan: free
+    buildCommand: cd client && pnpm install && pnpm run build
+    publishPath: client/dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false # Set to your Render backend API URL once deployed (e.g. https://triclip-api.onrender.com)

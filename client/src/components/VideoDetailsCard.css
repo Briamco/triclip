@@ -1,0 +1,83 @@
+.video-details-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+}
+
+.details-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.details-label {
+  color: var(--text-secondary);
+}
+
+.details-val {
+  color: var(--text-primary);
+  font-weight: 500;
+  max-width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.details-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 10px 0;
+  width: 100%;
+}
+
+.shortcuts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.shortcut-keys {
+  flex-shrink: 0;
+}
+
+.shortcut-keys kbd {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.68rem;
+  color: var(--accent-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.shortcut-desc {
+  color: var(--text-secondary);
+}
+
+/* Hide media info details and hotkeys on mobile devices */
+@media (max-width: 768px) {
+  .video-details-card {
+    display: none !important;
+  }
+}

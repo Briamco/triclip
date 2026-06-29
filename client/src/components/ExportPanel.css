@@ -1,0 +1,280 @@
+.export-panel {
+  animation: fadeUp 0.6s ease 0.4s both;
+}
+
+.export-btn {
+  width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--accent-primary), #d63851);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Unbounded', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.export-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.export-btn:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.export-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--accent-glow), 0 0 60px rgba(233, 69, 96, 0.15);
+}
+
+.export-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.export-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.export-processing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.export-processing-ring {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+
+.export-processing-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--border-subtle);
+  border-radius: 50%;
+}
+
+.export-processing-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid transparent;
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.export-processing-pulse {
+  position: absolute;
+  inset: -8px;
+  border: 2px solid var(--accent-primary);
+  border-radius: 50%;
+  animation: pulseRing 1.5s ease-out infinite;
+  opacity: 0.3;
+}
+
+.export-processing-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.export-processing-progress {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.export-processing-bar-track {
+  height: 4px;
+  background: var(--bg-primary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.export-processing-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-primary), #ff6b81);
+  border-radius: 2px;
+  transition: width var(--transition-base);
+}
+
+.export-download {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.export-download-btn {
+  width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--success), #00b87a);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all var(--transition-base);
+  font-family: 'Unbounded', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.export-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 214, 143, 0.3);
+}
+
+.export-reset-btn {
+  width: 100%;
+  padding: 10px 20px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.export-reset-btn:hover {
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+}
+
+.export-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.export-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.export-info-label {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.export-info-value {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-primary);
+  font-size: 0.8rem;
+}
+
+.export-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 16px 0;
+  width: 100%;
+}
+
+.export-warning-notice {
+  font-size: 0.75rem;
+  color: var(--warning);
+  background: rgba(255, 170, 0, 0.05);
+  border: 1px dashed rgba(255, 170, 0, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  margin-bottom: 8px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.export-btn-secondary {
+  width: 100%;
+  padding: 12px 20px;
+  background: transparent;
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-base);
+  font-family: 'Unbounded', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.export-btn-secondary:hover {
+  background: rgba(233, 69, 96, 0.1);
+  box-shadow: 0 4px 15px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.export-btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* ─── MOBILE STYLING FOR EXPORT PANEL ────────────────────────────── */
+@media (max-width: 768px) {
+  .export-panel {
+    padding: 20px 16px;
+  }
+
+  .export-btn, .export-download-btn {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+
+  .export-btn-secondary {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+
+  .export-info {
+    margin-top: 12px;
+    gap: 6px;
+  }
+
+  .export-info-row {
+    font-size: 0.75rem;
+  }
+
+  .export-info-label {
+    gap: 4px;
+  }
+
+  .export-info-value {
+    font-size: 0.75rem;
+  }
+
+  .export-divider {
+    margin: 12px 0;
+  }
+
+  .export-warning-notice {
+    font-size: 0.7rem;
+    padding: 8px;
+  }
+}
+

@@ -1,0 +1,286 @@
+.video-player {
+  animation: fadeUp 0.6s ease 0.2s both;
+  width: 100%;
+  max-width: 100%;
+}
+
+.video-player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.video-player-header .section-title {
+  margin-bottom: 0;
+}
+
+.trimmed-duration-badge {
+  background: rgba(233, 69, 96, 0.08);
+  border: 1px solid rgba(233, 69, 96, 0.2);
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.trimmed-duration-badge strong {
+  color: var(--accent-primary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.video-wrapper {
+  position: relative;
+  background: #000;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-element {
+  width: 100%;
+  height: auto;
+  max-height: 65vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* CUSTOM VIDEO CONTROLS OVERLAY */
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+  padding: 24px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.video-wrapper:hover .video-controls {
+  opacity: 1;
+}
+
+.video-progress {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+  transition: height var(--transition-fast);
+}
+
+.video-progress:hover {
+  height: 6px;
+}
+
+.video-progress-buffered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.video-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent-primary);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.video-progress-fill::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-primary);
+  transition: transform var(--transition-fast);
+  pointer-events: none;
+}
+
+.video-progress:hover .video-progress-fill::after {
+  transform: translateY(-50%) scale(1);
+}
+
+.video-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.video-btn {
+  background: transparent;
+  color: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+}
+
+.video-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent-secondary);
+}
+
+.video-btn.play-btn {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.video-btn.play-btn:hover {
+  background: var(--accent-primary);
+  color: white;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.video-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.video-time-separator {
+  color: var(--text-muted);
+}
+
+.video-volume-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.video-volume-slider {
+  width: 60px;
+  height: 4px;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.video-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+}
+
+/* ─── MOBILE STYLING FOR VIDEO PLAYER ────────────────────────────── */
+@media (max-width: 768px) {
+  .video-player {
+    height: 100%;
+  }
+
+  .video-wrapper {
+    aspect-ratio: auto; /* Remove the 16:9 lock on mobile for reels/tiktoks */
+    width: 100%;
+    height: 86%;
+  }
+
+  .video-controls {
+    opacity: 1; /* Always show controls on mobile since hover is not possible */
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    padding: 30px 12px 8px;
+    gap: 6px;
+  }
+
+  .video-progress {
+    height: 6px; /* Slightly thicker for touch targets */
+  }
+
+  .video-progress-fill::after {
+    transform: translateY(-50%) scale(1); /* Always show progress dot on mobile */
+    width: 10px;
+    height: 10px;
+    right: -5px;
+  }
+
+  .video-controls-bar {
+    gap: 8px;
+  }
+
+  .video-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+
+  .video-btn.play-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .video-time {
+    font-size: 0.65rem;
+  }
+
+  .video-volume-slider {
+    display: none; /* Hide volume slider on mobile since users use physical buttons */
+  }
+}
+
+/* Desktop viewport constraint to fill workspace like CapCut */
+@media (min-width: 769px) {
+  .video-player {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .video-wrapper {
+    flex: 1;
+    min-height: 0;
+    width: auto;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .video-element {
+    max-height: 100%;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+}
