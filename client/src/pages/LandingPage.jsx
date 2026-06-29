@@ -11,7 +11,6 @@ export default function LandingPage() {
     isUploading,
     uploadProgress,
     handleUploadFile,
-    handleFetchYoutube,
     dailyTrims,
     config
   } = useVideoTrimmer();
@@ -32,7 +31,7 @@ export default function LandingPage() {
   const faqs = [
     {
       question: "What video formats are supported?",
-      answer: "Triclip supports all popular video formats including MP4, WebM, MOV, AVI, and MKV. For online links, just paste any YouTube video (including Shorts and finished Lives), TikTok video, or Instagram Reel, and it will load instantly."
+      answer: "Triclip supports all popular video formats including MP4, WebM, MOV, AVI, and MKV."
     },
     {
       question: "Will my trimmed videos lose quality?",
@@ -40,7 +39,7 @@ export default function LandingPage() {
     },
     {
       question: "Is there a file size limit?",
-      answer: `Yes, you can upload local video files up to ${config.maxFileSizeReadable || '1 GB'}. For YouTube links, we fetch the best resolution available up to 1080p to keep processing fast and responsive.`
+      answer: `Yes, you can upload local video files up to ${config.maxFileSizeReadable || '1 GB'}.`
     },
     {
       question: "Are my files safe? Does Triclip store them?",
@@ -50,10 +49,6 @@ export default function LandingPage() {
       question: "Why is there a daily usage limit?",
       answer: `To keep Triclip 100% free of annoying ads for everyone, we limit the usage to ${config.dailyUsageLimit || 5} video exports per user per calendar day. This prevents server strain and ensures the highest speeds for all users.`
     },
-    {
-      question: "Can I use the exported videos on TikTok, Reels, or YouTube Shorts?",
-      answer: "Yes! The exported video downloads directly to your device as a standard, high-quality MP4 file with no watermarks, ready to upload directly to any social media platform."
-    }
   ];
 
   const handleStartEditing = () => {
@@ -74,8 +69,7 @@ export default function LandingPage() {
           <span className="gradient-text">In Under Two Seconds.</span>
         </h1>
         <p className="landing-subtitle">
-          The ultimate tool to trim local media files or download YouTube links. 
-          No rendering lag, no watermark, and absolutely free.
+          The ultimate tool to trim your local media files — no rendering lag, no watermark, and absolutely free.
         </p>
 
         <div className="hero-cta-group">
@@ -105,12 +99,11 @@ export default function LandingPage() {
         ) : (
           <div className="landing-uploader-wrap">
             <div className="uploader-header">
-              <h2>Upload or Paste Link to Begin</h2>
-              <p>Supports MP4, WebM, MOV, YouTube, TikTok and Instagram links up to {config.maxFileSizeReadable}</p>
+              <h2>Upload Your Video to Begin</h2>
+              <p>Supports MP4, WebM, MOV, AVI and MKV files up to {config.maxFileSizeReadable}</p>
             </div>
             <UploadZone
               onUpload={handleUploadFile}
-              onYoutube={handleFetchYoutube}
               isUploading={isUploading}
               uploadProgress={uploadProgress}
             />
@@ -127,7 +120,7 @@ export default function LandingPage() {
           <div className="step-card">
             <div className="step-number">1</div>
             <h3>Select Source</h3>
-            <p>Drag & drop your local video (up to 1GB) or paste a YouTube / live stream link to download it automatically.</p>
+            <p>Drag & drop your local video file (MP4, MOV, AVI, MKV) up to 1GB.</p>
           </div>
           <div className="step-arrow">→</div>
           <div className="step-card">
@@ -138,8 +131,8 @@ export default function LandingPage() {
           <div className="step-arrow">→</div>
           <div className="step-card">
             <div className="step-number">3</div>
-            <h3>Export & Download</h3>
-            <p>Hit 'Trim & Export'. Our engine copies the video stream directly and downloads the clip instantly to your device.</p>
+            <h3>Trim</h3>
+            <p>Hit 'Trim'. Our engine copies the video stream directly — no re-encoding, instant processing.</p>
           </div>
         </div>
       </section>
@@ -206,7 +199,7 @@ export default function LandingPage() {
             <img src="/logo.svg" alt="Triclip Logo" className="footer-logo-img" style={{ width: 24, height: 24 }} />
             <span>Triclip</span>
           </div>
-          <p>High-fidelity, zero-lag video cropping tool. Developed locally using React, Express, and FFmpeg.</p>
+          <p>High-fidelity, zero-lag video cropping tool</p>
           <div className="footer-copyright">
             © 2026 Triclip. MIT License. All rights reserved.
           </div>

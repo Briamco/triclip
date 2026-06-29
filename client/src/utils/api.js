@@ -40,21 +40,11 @@ export async function uploadVideo(file, onProgress) {
 }
 
 /**
- * Fetch a YouTube video
- * @param {string} url
- * @returns {Promise<{filename: string, duration: number, title: string}>}
- */
-export async function fetchYoutube(url) {
-  const response = await api.post('/api/youtube', { url });
-  return response.data;
-}
-
-/**
  * Trim a video
  * @param {string} filename
  * @param {number} startTime
  * @param {number} endTime
- * @returns {Promise<{filename: string, outputFilename: string}>}
+ * @returns {Promise<{filename: string, duration: number}>}
  */
 export async function trimVideo(filename, startTime, endTime) {
   const response = await api.post('/api/trim', {
@@ -63,15 +53,6 @@ export async function trimVideo(filename, startTime, endTime) {
     endTime,
   });
   return response.data;
-}
-
-/**
- * Get download URL for a trimmed video
- * @param {string} filename
- * @returns {string}
- */
-export function getDownloadUrl(filename) {
-  return `${API_BASE_URL}/api/download/${encodeURIComponent(filename)}`;
 }
 
 /**

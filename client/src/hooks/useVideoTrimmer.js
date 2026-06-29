@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { uploadVideo, fetchYoutube, trimVideo, getDownloadUrl, getVideoUrl, deleteVideo, fetchAppConfig, API_BASE_URL } from '../utils/api';
+import { uploadVideo, trimVideo, getVideoUrl, deleteVideo, fetchAppConfig, API_BASE_URL } from '../utils/api';
 
 let toastId = 0;
 
@@ -97,96 +97,6 @@ export default function useVideoTrimmer() {
     }
   }, [addToast]);
 
-  const handleFetchYoutube = useCallback(async (url) => {
-    setIsUploading(true);
-    setUploadProgress(0);
-
-    // Validation in the frontend
-    if (!url || typeof url !== 'string') {
-      addToast('Please provide a valid video URL.', 'error');
-      setIsUploading(false);
-      return;
-    }
-
-    const patterns = [
-      // YouTube
-      /^(https?:\/\/)?((www|m|music|gaming)\.)?youtube\.com\/watch\?v=[\w-]{11}/,
-      /^(https?:\/\/)?(www\.)?youtu\.be\/[\w-]{11}/,
-      /^(https?:\/\/)?((www|m)\.)?youtube\.com\/embed\/[\w-]{11}/,
-      /^(https?:\/\/)?((www|m)\.)?youtube-nocookie\.com\/embed\/[\w-]{11}/,
-      /^(https?:\/\/)?((www|m)\.)?youtube\.com\/shorts\/[\w-]{11}/,
-      /^(https?:\/\/)?((www|m)\.)?youtube\.com\/live\/[\w-]{11}/,
-
-      // TikTok
-      /^(https?:\/\/)?((www|m)\.)?tiktok\.com\/@[\w.-]+\/video\/\d+/,
-      /^(https?:\/\/)?(vm|vt)\.tiktok\.com\/[\w-]+/,
-
-      // Instagram Reels / Posts
-      /^(https?:\/\/)?((www|m)\.)?instagram\.com\/(reel|reels|p)\/[\w-]+/,
-    ];
-
-    const isValid = patterns.some((pattern) => pattern.test(url));
-    if (!isValid) {
-      addToast('Invalid URL. We support YouTube, TikTok, and Instagram links.', 'error');
-      setIsUploading(false);
-      return;
-    }
-    
-    let eventSource = null;
-
-    try {
-      const { taskId } = await fetchYoutube(url);
-
-      eventSource = new EventSource(`${API_BASE_URL}/api/youtube/progress/${taskId}`);
-
-      eventSource.onmessage = (event) => {
-        try {
-          const task = JSON.parse(event.data);
-          
-          if (task.status === 'downloading') {
-            setUploadProgress(task.progress);
-          } else if (task.status === 'completed') {
-            eventSource?.close();
-            const result = task.result;
-            const src = getVideoUrl(result.filename);
-            
-            setVideo({ 
-              filename: result.filename, 
-              src, 
-              duration: result.duration || 0 
-            });
-            setTrimRange({ start: 0, end: result.duration || 0 });
-            setTrimResult(null);
-            setIsUploading(false);
-            setUploadProgress(0);
-            addToast(`YouTube video loaded: ${result.originalName || 'Video'}`, 'success');
-          } else if (task.status === 'failed') {
-            eventSource?.close();
-            setIsUploading(false);
-            setUploadProgress(0);
-            addToast(task.error || 'Failed to download YouTube video', 'error');
-          }
-        } catch (parseErr) {
-          console.error('Error parsing SSE data:', parseErr);
-        }
-      };
-
-      eventSource.onerror = (err) => {
-        console.error('SSE connection error:', err);
-        eventSource?.close();
-        setIsUploading(false);
-        setUploadProgress(0);
-        addToast('Connection lost during download progress streaming', 'error');
-      };
-
-    } catch (err) {
-      eventSource?.close();
-      setIsUploading(false);
-      setUploadProgress(0);
-      addToast(err.response?.data?.error || 'Failed to start YouTube download', 'error');
-    }
-  }, [addToast]);
-
   const handleTrimVideo = useCallback(async () => {
     if (dailyTrims >= config.dailyUsageLimit) {
       addToast(`Daily limit reached. You can only trim ${config.dailyUsageLimit} videos per day.`, 'error');
@@ -226,19 +136,6 @@ export default function useVideoTrimmer() {
       setTrimProgress(0);
     }
   }, [video, trimRange, addToast]);
-
-  const handleDownload = useCallback(() => {
-    if (!trimResult) return;
-    const outputFilename = trimResult.outputFilename || trimResult.filename;
-    const url = getDownloadUrl(outputFilename);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = outputFilename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    addToast('Download started', 'info');
-  }, [trimResult, addToast]);
 
   const handleTrimChange = useCallback((start, end) => {
     setTrimRange({ start: Math.max(0, start), end: Math.min(end, video?.duration || end) });
@@ -323,9 +220,7 @@ export default function useVideoTrimmer() {
     addToast,
     removeToast,
     handleUploadFile,
-    handleFetchYoutube,
     handleTrimVideo,
-    handleDownload,
     handleTrimChange,
     handleTimeUpdate,
     handleLoadedMetadata,
