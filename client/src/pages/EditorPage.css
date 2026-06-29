@@ -205,7 +205,7 @@
   flex-direction: column;
   flex: 1;
   min-height: 0; /* Important to allow children to shrink and scroll */
-  gap: 12px;
+  gap: 0;
   width: 100%;
 }
 
@@ -224,10 +224,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-subtle);
-  padding: 12px;
 }
 
 .workspace-export-panel {
@@ -239,10 +235,21 @@
 
 /* Large Desktop layout: video fills left, single column narrow sidebar on right */
 @media (min-width: 1025px) {
+  .workspace-upper {
+    margin-bottom: -1px; /* Overlap border with workspace-lower for seamless join */
+  }
+
   .workspace-player-panel {
     flex: 1; /* Fill all remaining space */
     min-height: 0;
     overflow: hidden;
+  }
+
+  /* Make the video card square-bottom so it joins workspace-lower */
+  .workspace-player-panel > * {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important;
   }
 
   .workspace-export-panel {
@@ -254,9 +261,55 @@
     height: 100%;
     overflow-y: auto; /* Internal scrollbar fallback if needed */
   }
+
+  /* Bottom-most card in the sidebar loses its bottom radius to join the timeline */
+  .workspace-export-panel > .sidebar-block:last-child > * {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important;
+  }
 }
 
-/* Tablet layout: single column vertical stack, video full-width, controls side-by-side, hidden media info */
+/* Bottom bar layout containers (Global/Default is desktop layout) */
+.timeline-workspace-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.timeline-track-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.timeline-export-container {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+/* Compact transparent styling for export card inside bottom timeline panel */
+.timeline-export-container .export-panel {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+/* Default visibility rules (Desktop default) */
+.desktop-tablet-only-export {
+  display: block !important;
+}
+
+.mobile-only-export {
+  display: none !important;
+}
+
+/* Tablet layout: single column vertical stack, video full-width, hidden media info */
 @media (min-width: 769px) and (max-width: 1024px) {
   .workspace-upper {
     flex-direction: column;
@@ -274,27 +327,44 @@
     width: 100% !important;
     max-width: 100% !important;
     flex: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Selection & Export side-by-side */
+    display: flex;
+    flex-direction: column;
     gap: 12px;
     height: auto;
     overflow-y: visible;
   }
 
-  /* Hide Media Info & Hotkeys completely on tablets */
-  .workspace-export-panel > .sidebar-block:nth-child(3) {
-    display: none !important;
-  }
-
-  /* Force display of the selection settings and export blocks */
+  /* Tablet export panels display: settings & export visible, details hidden */
   .workspace-export-panel > .sidebar-block:nth-child(1),
   .workspace-export-panel > .sidebar-block:nth-child(2) {
     display: block !important;
   }
 
+  .workspace-export-panel > .sidebar-block:nth-child(3) {
+    display: none !important; /* Hide details card on tablet */
+  }
+
   .workspace-lower {
     width: 100%;
     flex-shrink: 0;
+    padding: 12px;
+  }
+
+  /* Tablet timeline stacks vertically: timeline track top, export card bottom */
+  .timeline-workspace-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .timeline-track-container {
+    width: 100%;
+  }
+
+  /* On tablet, hide the bottom export panel because the sidebar one is visible! */
+  .mobile-only-export {
+    display: none !important;
   }
 }
 
@@ -317,7 +387,7 @@
   width: 100%;
   background: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg); /* Only round bottom corners */
   padding: 8px 16px; /* Super thin padding like CapCut timeline track */
   flex-shrink: 0; /* Never shrink the timeline */
 }
@@ -354,41 +424,52 @@
   color: var(--text-secondary);
 }
 
-/* RESPONSIVE LAYOUT SHOW/HIDE */
+/* ═══════════════════════════════════════════════
+   MOBILE — Clean single-column scrollable layout
+   ═══════════════════════════════════════════════ */
 @media (max-width: 768px) {
+
+  /* Full height, flex column, toolbar pinned at bottom */
   .editor-page {
-    height: 100vh; /* Lock height on mobile too */
+    height: 100vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
 
-  /* Swaps visual position: workspace container at the top, toolbar at the bottom */
+  /* Scrollable main area grows to fill space above toolbar */
   .workspace-container {
     order: 1;
     flex: 1;
     min-height: 0;
-    overflow-y: auto; /* Allow middle workspace to scroll if screen is small */
-    padding-bottom: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    gap: 12px !important; /* Force exact same card gaps */
+    gap: 12px;
+    padding: 0 0 8px;
+    /* Restore desktop fusion overrides */
+    margin-bottom: 0 !important;
   }
 
+  /* Toolbar docked at bottom like a native app */
   .editor-toolbar {
     order: 2;
-    margin-top: auto;
+    flex-shrink: 0;
+    margin-top: 0;
     margin-bottom: 0;
     height: auto;
-    min-height: 64px;
-    border-radius: var(--radius-md) var(--radius-md) 0 0; /* CapCut bottom dock styling */
+    min-height: 60px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
     border-bottom: none;
+    border-left: none;
+    border-right: none;
     border-top: 1px solid var(--border-subtle);
-    padding: 12px 16px 20px; /* Leave padding for home indicators on modern phones */
+    padding: 12px 16px 20px;
     width: 100%;
-    flex-shrink: 0;
   }
 
+  /* Quota pill: show inline under brand name, hide desktop version */
   .mobile-only-quota {
     display: block;
     border: none;
@@ -397,63 +478,88 @@
     margin-top: 1px;
     font-size: 0.65rem;
   }
+  .desktop-only-quota { display: none; }
 
-  .desktop-only-quota {
-    display: none;
-  }
+  /* Toolbar font tweaks */
+  .editor-toolbar-logo { width: 20px; height: 20px; }
+  .editor-toolbar-title { font-size: 0.75rem; }
+  .editor-toolbar-btn { padding: 5px 10px; font-size: 0.7rem; }
 
-  .editor-toolbar-logo {
-    width: 20px;
-    height: 20px;
-  }
-
-  .editor-toolbar-title {
-    font-size: 0.75rem;
-  }
-
-  .editor-toolbar-btn {
-    padding: 5px 10px;
-    font-size: 0.7rem;
-  }
-
-  /* Reset upper container for stack representation */
+  /* ── Upper panel: stack video then settings vertically ── */
   .workspace-upper {
     flex-direction: column;
     height: auto;
-    display: flex;
-    gap: 12px !important; /* Force exact same card gaps */
+    flex: none;
+    gap: 12px;
   }
 
+  /* Video player — auto height, full width */
+  .workspace-player-panel {
+    width: 100%;
+    height: auto;
+    flex: none;
+  }
+
+  /* Undo desktop border-fusion on the player card */
+  .workspace-player-panel > * {
+    border-bottom-left-radius: var(--radius-lg) !important;
+    border-bottom-right-radius: var(--radius-lg) !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+  }
+
+  /* Right sidebar: only show Selection Settings (1st child) */
   .workspace-export-panel {
-    max-width: 100%;
+    width: 100%;
     height: auto;
     overflow-y: visible;
     display: flex;
     flex-direction: column;
-    gap: 12px !important;
+    gap: 0;
   }
 
-  .workspace-lower {
-    padding: 12px;
+  /* Show only the first sidebar block (TimeControls) */
+  .workspace-export-panel > .sidebar-block:nth-child(1) {
+    display: block !important;
   }
-
-  /* Hide Details card container on mobile devices */
+  .workspace-export-panel > .sidebar-block:nth-child(2),
   .workspace-export-panel > .sidebar-block:nth-child(3) {
     display: none !important;
   }
 
-  .workspace-player-panel {
-    display: flex !important;
-    flex-direction: column;
+  /* ── Lower panel (timeline card) ── */
+  .workspace-lower {
     width: 100%;
-    height: auto;
-    flex: none; /* Do not stretch the player card vertical space */
+    flex-shrink: 0;
+    /* Reset desktop fusion overrides — normal card */
+    border-radius: var(--radius-lg) !important;
+    border-top-left-radius: var(--radius-lg) !important;
+    border-top-right-radius: var(--radius-lg) !important;
+    margin-top: 0 !important;
+    padding: 12px !important;
   }
 
-  .workspace-lower,
+  /* Sidebar blocks are full-width flex columns */
   .sidebar-block {
     display: flex !important;
     flex-direction: column;
     width: 100%;
   }
+
+  /* Show mobile export panel (inside timeline card), hide desktop one */
+  .mobile-only-export { display: block !important; }
+  .desktop-tablet-only-export { display: none !important; }
+
+  /* Timeline stacks: track on top, export button below — no gap between them */
+  .timeline-workspace-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+  .timeline-track-container {
+    width: 100%;
+    padding-bottom: 8px;
+  }
+  .timeline-export-container { width: 100%; }
 }
+
